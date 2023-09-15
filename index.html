@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300&display=swap" rel="stylesheet">
+<title>DALL-E Image Editor - A Canvas of Infinite Possibilities</title>
+<script>
+  window.onload = function() {
+    const apiKey = prompt("Please enter your API key:");
+    if(apiKey) {
+      localStorage.setItem('apiKey', apiKey);
+    } else {
+      alert("API key is required to use the application.");
+    }
+  };
+</script>
+</head>
+<body>
+
+<div class="container">
+  <h1>DALL-E Image Editor</h1>
+  <p class="subtitle">A Canvas of Infinite Possibilities</p>
+  
+  <div class="upload-section">
+    <h2>Begin Your Artistic Journey</h2>
+    <p>Select an image and a mask, then enter a creative prompt to transform your visual canvas.</p>
+    
+    <label for="apiSelection">Choose API Operation:</label>
+    <select id="apiSelection" name="apiSelection">
+      <option value="create">Create Image</option>
+      <option value="edit">Edit Image</option>
+      <option value="variation">Create Image Variation</option>
+    </select>
+
+    <label for="image1" class="tooltip">Upload Image:
+      <span class="tooltiptext">Choose an image to upload.</span>
+    </label>
+    <input type="file" id="image1" name="image1" accept="image/*">
+
+    <label for="mask" class="tooltip">Upload Mask (Optional):
+      <span class="tooltiptext">Choose a mask for image editing. Leave blank for creation or variation.</span>
+    </label>
+    <input type="file" id="mask" name="mask" accept="image/*">
+
+    <label for="prompt">Enter Your Artistic Prompt:</label>
+    <input type="text" id="prompt" name="prompt" placeholder="Enter your artistic prompt here">
+
+    <button id="submit" onclick="makeAPICall()">Unleash Creativity</button>
+    
+    <div id="progress" class="progress-bar">
+      <div id="progress-bar" class="progress-bar-fill"></div>
+    </div>
+  </div>
+  
+  <div class="output-section">
+    <h2>Your Artistic Creation</h2>
+    <img id="outputImage" src="" alt="Your Transformed Artistic Creation Awaits">
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>
