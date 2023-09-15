@@ -1,72 +1,62 @@
 async function makeAPICall() {
     try {
-        // Step 1: Retrieve the API Key from local storage and check its existence
-        const apiKey = localStorage.getItem('apiKey');
-        if (!apiKey) {
-            alert("API key is missing. Please reload the page and enter your API key.");
-            return;
-        }
-
-        // Step 2: Get the input values from the form
-        const image1 = document.getElementById('image1').files[0];
-        const mask = document.getElementById('mask').files[0];
-        const prompt = document.getElementById('prompt').value;
-        const apiSelection = document.getElementById('apiSelection').value;
-        const imageSize = document.getElementById('imageSize').value;
-        const imageCount = document.getElementById('imageCount').value;
-
-        // Step 3: Set up the API endpoint base URL
-        const apiEndpointBase = '/api/v1/images';
-
-        // Step 4: Create a FormData object to hold the input values
-        const formData = new FormData();
-        formData.append('prompt', prompt);
-        formData.append('n', imageCount);
-        formData.append('size', imageSize);
-
-        // Step 5: Set up the specific API endpoint and append necessary files to FormData
-        let apiEndpoint;
-        if (apiSelection === 'edit') {
-            apiEndpoint = `${apiEndpointBase}/edits`;
-            if (image1) formData.append('image', image1);
-            if (mask) formData.append('mask', mask);
-        } else if (apiSelection === 'variation') {
-            apiEndpoint = `${apiEndpointBase}/variations`;
-            if (image1) formData.append('image', image1);
-        } else {
-            apiEndpoint = `${apiEndpointBase}/generations`;
-        }
-
-        // Step 6: Make the API call using Axios
-        const response = await axios.post(apiEndpoint, formData, {
-            headers: {
-                'Authorization': `Bearer ${apiKey}`
-            }
+      const apiKey = localStorage.getItem('apiKey');
+      if (!apiKey) {
+        console.error("API key is missing. Please reload the page and enter your API key.");
+        return;
+      }
+  
+      const image1 = document.getElementById('image1').files[0];
+      const mask = document.getElementById('mask').files[0];
+      const prompt = document.getElementById('prompt').value;
+      const apiSelection = document.getElementById('apiSelection').value;
+      const apiEndpoint = 'https://api.openai.com/v1/images'; // Replace with the actual API endpoint
+  
+      let response;
+      const formData = new FormData();
+      formData.append('prompt', prompt);
+      formData.append('n', 1);
+      formData.append('size', '1024x1024');
+  
+      if (apiSelection === 'edit' && image1 && mask) {
+        formData.append('image', image1, image1.name);
+        formData.append('mask', mask, mask.name);
+        response = await axios.post(`${apiEndpoint}/create_edit`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${apiKey}`
+          }
         });
-
-        // Step 7: Display the output image
-        const outputSection = document.getElementById('outputSection');
-        outputSection.innerHTML = ''; // Clear previous output
-        response.data.data.forEach(imgData => {
-            const img = document.createElement('img');
-            img.src = imgData.url;
-            img.style.margin = '10px';
-            outputSection.appendChild(img);
+      } else if (apiSelection === 'variation' && image1) {
+        formData.append('image', image1, image1.name);
+        response = await axios.post(`${apiEndpoint}/create_variation`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${apiKey}`
+          }
         });
-
-        // Step 8: Save the generated images URL to local storage
-        localStorage.setItem('generatedImages', JSON.stringify(response.data.data));
+      } else {
+        response = await axios.post(`${apiEndpoint}/create`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${apiKey}`
+          }
+        });
+      }
+  
+      document.getElementById('outputImage').src = response.data.data[0].url;
     } catch (error) {
-        // Step 9: Error handling
-        if (error.response) {
-            console.error('Error response:', error.response);
-            alert(`Error: ${error.response.status}\n${JSON.stringify(error.response.data)}`);
-        } else {
-            console.error('Error message:', error.message);
-            alert(`Error: ${error.message}`);
-        }
+      if (error.response) {
+        console.error(error.response.status);
+        console.error(error.response.data);
+        console.error(`Error: ${error.response.status}\n${JSON.stringify(error.response.data)}`);
+      } else {
+        console.error(error.message);
+        console.error(`Error: ${error.message}`);
+      }
     }
-}
+  }
+  
 
 // Function to download the generated images (if any)
 function downloadImages() {
