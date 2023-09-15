@@ -10,7 +10,8 @@ async function makeAPICall() {
       const mask = document.getElementById('mask').files[0];
       const prompt = document.getElementById('prompt').value;
       const apiSelection = document.getElementById('apiSelection').value;
-      const apiEndpoint = 'https://api.openai.com/v1/images'; // Replace with the actual API endpoint
+      const apiEndpoint = '/api/v1/images';
+
   
       let response;
       const formData = new FormData();

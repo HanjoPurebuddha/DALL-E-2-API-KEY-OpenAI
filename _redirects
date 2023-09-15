@@ -1,3 +1,1 @@
-/api/v1/images/generations  https://api.openai.com/v1/images/generations  200
-/api/v1/images/edits  https://api.openai.com/v1/images/edits  200
-/api/v1/images/variations  https://api.openai.com/v1/images/variations  200
+/api/*  https://api.openai.com/:splat  200
