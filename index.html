@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="css/styles.css">
 <title>DALL-E Image Editor</title>
 </head>
 <body>
@@ -16,38 +16,45 @@
     <input type="file" id="image1" name="image1" accept="image/*">
     <input type="file" id="mask" name="mask" accept="image/*">
     <input type="text" id="prompt" name="prompt" placeholder="Enter your prompt here">
-
-    <!-- Dropdown to select API method -->
+    
+    <!-- Dropdown for API selection -->
     <select id="apiSelection" name="apiSelection">
       <option value="create">Create Image</option>
       <option value="edit">Edit Image</option>
-      <option value="variation">Create Image Variation</option>
+      <option value="variation">Create Variation</option>
     </select>
-
-    <!-- Dropdown to select image size -->
-    <select id="imageSize" name="imageSize">
-      <option value="1024x1024">1024x1024</option>
-      <option value="512x512">512x512</option>
-      <option value="256x256">256x256</option>
-    </select>
-
-    <!-- Input to select the number of images to generate -->
-    <input type="number" id="imageCount" name="imageCount" min="1" max="10" value="1">
-
+    
     <button id="submit" onclick="makeAPICall()">Transform</button>
   </div>
   
-  <div class="output-section" id="outputSection">
+  <div class="output-section">
     <h2>Transformed Image</h2>
-    <!-- Output section will be dynamically populated by JavaScript -->
+    <img id="outputImage" src="" alt="Transformed Image">
+    
+    <!-- Button to download the generated image -->
+    <button id="downloadButton" onclick="downloadImage()">Download Image</button>
   </div>
-
-  <!-- Button to download generated images -->
-  <button id="downloadButton" onclick="downloadImages()">Download Images</button>
 </div>
 
+<!-- Adding a script to handle API key storage -->
+<script>
+  window.onload = function() {
+    const apiKey = prompt("Please enter your API key:");
+    localStorage.setItem('apiKey', apiKey);
+  }
+
+  function downloadImage() {
+    const image = document.getElementById('outputImage');
+    const url = image.src;
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'transformed-image.png';
+    link.click();
+  }
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="script.js"></script>
+<script src="js/script.js"></script>
 
 </body>
 </html>
