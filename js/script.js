@@ -10,7 +10,7 @@ async function makeAPICall() {
       const mask = document.getElementById('mask').files[0];
       const prompt = document.getElementById('prompt').value;
       const apiSelection = document.getElementById('apiSelection').value;
-      const apiEndpoint = 'https://api.openai.com/v1/images'; // Replace with the actual API endpoint
+      const apiEndpoint = '/api/v1/images'; // Adjusted to work with Netlify's redirect & proxy
   
       let response;
       const formData = new FormData();
@@ -29,7 +29,7 @@ async function makeAPICall() {
         });
       } else if (apiSelection === 'variation' && image1) {
         formData.append('image', image1);
-        response = await axios.post(`${apiEndpoint}/createImageVariation`, formData, {
+        response = await axios.post(`${apiEndpoint}/create_variation`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${apiKey}`
