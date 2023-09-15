@@ -3,66 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="css/styles.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300&display=swap" rel="stylesheet">
-<title>DALL-E Image Editor - A Canvas of Infinite Possibilities</title>
-<script>
-  window.onload = function() {
-    const apiKey = prompt("Please enter your API key:");
-    if(apiKey) {
-      localStorage.setItem('apiKey', apiKey);
-    } else {
-      alert("API key is required to use the application.");
-    }
-  };
-</script>
+<link rel="stylesheet" href="styles.css">
+<title>DALL-E Image Editor</title>
 </head>
 <body>
 
 <div class="container">
   <h1>DALL-E Image Editor</h1>
-  <p class="subtitle">A Canvas of Infinite Possibilities</p>
   
   <div class="upload-section">
-    <h2>Begin Your Artistic Journey</h2>
-    <p>Select an image and a mask, then enter a creative prompt to transform your visual canvas.</p>
-    
-    <label for="apiSelection">Choose API Operation:</label>
+    <h2>Upload Your Images</h2>
+    <input type="file" id="image1" name="image1" accept="image/*">
+    <input type="file" id="mask" name="mask" accept="image/*">
+    <input type="text" id="prompt" name="prompt" placeholder="Enter your prompt here">
+
+    <!-- Dropdown to select API method -->
     <select id="apiSelection" name="apiSelection">
       <option value="create">Create Image</option>
       <option value="edit">Edit Image</option>
       <option value="variation">Create Image Variation</option>
     </select>
 
-    <label for="image1" class="tooltip">Upload Image:
-      <span class="tooltiptext">Choose an image to upload.</span>
-    </label>
-    <input type="file" id="image1" name="image1" accept="image/*">
+    <!-- Dropdown to select image size -->
+    <select id="imageSize" name="imageSize">
+      <option value="1024x1024">1024x1024</option>
+      <option value="512x512">512x512</option>
+      <option value="256x256">256x256</option>
+    </select>
 
-    <label for="mask" class="tooltip">Upload Mask (Optional):
-      <span class="tooltiptext">Choose a mask for image editing. Leave blank for creation or variation.</span>
-    </label>
-    <input type="file" id="mask" name="mask" accept="image/*">
+    <!-- Input to select the number of images to generate -->
+    <input type="number" id="imageCount" name="imageCount" min="1" max="10" value="1">
 
-    <label for="prompt">Enter Your Artistic Prompt:</label>
-    <input type="text" id="prompt" name="prompt" placeholder="Enter your artistic prompt here">
-
-    <button id="submit" onclick="makeAPICall()">Unleash Creativity</button>
-    
-    <div id="progress" class="progress-bar">
-      <div id="progress-bar" class="progress-bar-fill"></div>
-    </div>
+    <button id="submit" onclick="makeAPICall()">Transform</button>
   </div>
   
-  <div class="output-section">
-    <h2>Your Artistic Creation</h2>
-    <img id="outputImage" src="" alt="Your Transformed Artistic Creation Awaits">
+  <div class="output-section" id="outputSection">
+    <h2>Transformed Image</h2>
+    <!-- Output section will be dynamically populated by JavaScript -->
   </div>
+
+  <!-- Button to download generated images -->
+  <button id="downloadButton" onclick="downloadImages()">Download Images</button>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="js/script.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>

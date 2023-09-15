@@ -2,58 +2,65 @@ body {
     font-family: 'Arial, sans-serif';
     background-color: #f0f0f0;
     color: #333;
-    background-image: url('background.png'); /* Add a background image that resonates with modern art */
-    background-size: cover;
-    background-attachment: fixed;
+    transition: background 0.5s ease-in-out;
+}
+
+body:hover {
+    background-color: #e0e0e0;
 }
 
 .container {
-    max-width: 800px;
+    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
-    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     overflow: hidden;
     position: relative;
+    transition: transform 0.3s;
 }
 
-.container::before {
-    content: "";
+.container:before {
+    content: '';
     position: absolute;
     top: 0;
-    left: 50%;
-    width: 2000px;
-    height: 2000px;
-    background-color: #ff69b4; /* A vibrant background color */
-    border-radius: 50%;
-    transform: translateX(-50%) translateY(-50%);
+    right: 0;
+    bottom: 0;
+    left: 0;
+    inset: 0 0 0 0;
+    background: linear-gradient(45deg, #f06, blue);
     z-index: -1;
+    filter: blur(20px);
+}
+
+.container:hover {
+    transform: scale(1.01);
 }
 
 .upload-section, .output-section {
     margin-bottom: 20px;
+    border-radius: 10px;
     padding: 20px;
-    border-radius: 15px;
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for sections */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff9;
+    backdrop-filter: blur(10px);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 h1, h2 {
     text-align: center;
-    font-size: 2em;
-    color: #ff4500; /* A bright and modern color for headlines */
+    color: #444;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-input[type="text"], input[type="file"] {
-    display: block;
-    margin: 10px auto;
+input[type="text"], input[type="file"], select, input[type="number"] {
+    width: 80%;
     padding: 10px;
+    margin: 10px auto;
+    display: block;
     border-radius: 5px;
     border: 1px solid #ccc;
-    width: 80%;
-    font-size: 1em;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 button {
@@ -63,26 +70,20 @@ button {
     background-color: #28a745;
     color: #fff;
     border: none;
-    border-radius: 50px; /* Rounded corners for the button */
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 1em;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
 }
 
 button:hover {
     background-color: #218838;
-    transform: translateY(-3px);
-}
-
-button:active {
-    transform: translateY(-1px);
 }
 
 #outputImage {
     max-width: 100%;
     display: block;
     margin: 0 auto;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
